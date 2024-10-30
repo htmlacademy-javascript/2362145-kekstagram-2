@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Никита Пыленок](https://up.htmlacademy.ru/javascript-individual/2/user/2362145).
-* Наставник: `Неизвестно`.
+* Наставник:[Михаил Данюшин](https://htmlacademy.ru/profile/id225742).
 
 ---
 
