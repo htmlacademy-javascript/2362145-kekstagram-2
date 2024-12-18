@@ -1,20 +1,20 @@
 // Функция проверки длины строки
-const chekLenghtString = (chekString, maxLenght) => {
-  const cheking = chekString.length <= maxLenght;
+const chekLengthString = (chekString, maxLength) => {
+  const cheking = chekString.length <= maxLength;
   return cheking;
 };
 
 // Функция проверки на полиндром
 const isPolindrom = (string) => {
   const formatSpaceString = (string.replaceAll(' ', ''));
-  const formatString = (formatSpaceString.toLowerCase());
+  const formatedString = (formatSpaceString.toLowerCase());
 
   let compareString = '';
 
-  for (let i = formatString.length - 1; i >= 0; i--) {
-    compareString += formatString.at([i]);
+  for (let i = formatedString.length - 1; i >= 0; i--) {
+    compareString += formatedString.at([i]);
   }
 
-  const cheking = formatString === compareString;
+  const cheking = formatedString === compareString;
   return cheking;
 };
