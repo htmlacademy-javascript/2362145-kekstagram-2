@@ -1,4 +1,5 @@
 // Функция проверки длины строки
+// eslint-disable-next-line no-unused-vars
 const chekLengthString = (chekString, maxLength) => chekString.length <= maxLength;
 
 // // Строка короче 20 символов
@@ -16,6 +17,7 @@ const chekLengthString = (chekString, maxLength) => chekString.length <= maxLeng
 
 
 // Функция проверки на полиндром
+// eslint-disable-next-line no-unused-vars
 const isPolindrom = (string) => {
   const formatedString = (string.replaceAll(' ', '').toLowerCase());
   let compareString = '';
