@@ -65,7 +65,7 @@ const createCat = () => ({
   url: `photos/${createRandomIdFromRangeGenerator(1, CAT_COUNT)()}.jpg`,
   description: getRandomArrayElement(CAT_DESCRIPTION),
   likes: getRandomInteger(15,200),
-  comments: Array.from({length: getRandomInteger(1, 30)}, createComment)
+  comments: Array.from({length: getRandomInteger(0, 30)}, createComment)
 });
 
 // eslint-disable-next-line no-unused-vars
