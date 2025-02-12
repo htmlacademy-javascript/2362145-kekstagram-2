@@ -70,3 +70,6 @@ const createCat = () => ({
 
 // eslint-disable-next-line no-unused-vars
 const similarCat = Array.from({ length: CAT_COUNT }, createCat);
+// УДАЛИТЬ ВСЕ ЧТО НИЖЕ
+// eslint-disable-next-line no-console
+console.log(similarCat);
