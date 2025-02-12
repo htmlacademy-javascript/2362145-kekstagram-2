@@ -3,6 +3,14 @@ const CAT_COMMENT_AVATAR_COUNT = 6;
 //отдельные переменные где хранятся id, что-бы они не повторялись
 const createCatId = createRandomIdFromRangeGenerator(1, CAT_COUNT);
 const createCommentCatId = createRandomIdFromRangeGenerator(1, 1000);
+const LIKES_COUNT = {
+  min: 15,
+  max: 200
+};
+const COMMENT_COUNT = {
+  min: 0,
+  max: 30
+};
 const CAT_DESCRIPTION = [
   'Достойный сын своего народа',
   'Звать меня бесполезно, лучше буду спокойно отдыхать',
@@ -64,8 +72,8 @@ const createCat = () => ({
   id: createCatId(),
   url: `photos/${createRandomIdFromRangeGenerator(1, CAT_COUNT)()}.jpg`,
   description: getRandomArrayElement(CAT_DESCRIPTION),
-  likes: getRandomInteger(15,200),
-  comments: Array.from({length: getRandomInteger(0, 30)}, createComment)
+  likes: getRandomInteger(LIKES_COUNT.min, LIKES_COUNT.max),
+  comments: Array.from({length: getRandomInteger(COMMENT_COUNT.min, COMMENT_COUNT.max)}, createComment)
 });
 
 // eslint-disable-next-line no-unused-vars
