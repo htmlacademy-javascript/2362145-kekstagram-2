@@ -1,10 +1,8 @@
-// завел так переменные что-бы в случае чего, только одну переменную поменять
 const CAT_COUNT = 25;
 const CAT_COMMENT_AVATAR_COUNT = 6;
+//отдельные переменные где хранятся id, что-бы они не повторялись
 const createCatId = createRandomIdFromRangeGenerator(1, CAT_COUNT);
-const createCommentCatAvatar = createRandomIdFromRangeGenerator(1, CAT_COMMENT_AVATAR_COUNT);
 const createCommentCatId = createRandomIdFromRangeGenerator(1, 1000);
-const createCatPhoto = createRandomIdFromRangeGenerator(1, CAT_COUNT);
 const CAT_DESCRIPTION = [
   'Достойный сын своего народа',
   'Звать меня бесполезно, лучше буду спокойно отдыхать',
@@ -56,21 +54,20 @@ function createRandomIdFromRangeGenerator (min, max) {
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
 const createComment = () => ({
-  id: createCommentCatId,
-  avatar: `img/avatar-${createCommentCatAvatar}.svg`,
+  id: createCommentCatId(),
+  avatar: `img/avatar-${createRandomIdFromRangeGenerator(1, CAT_COMMENT_AVATAR_COUNT)()}.svg`,
   message: getRandomArrayElement(CAT_COMMENT_MESSAGE),
   name: getRandomArrayElement(CAT_COMMENT_NAME)
 });
 
 const createCat = () => ({
-  id: createCatId,
-  url: `photos/${createCatPhoto}.jpg`,
+  id: createCatId(),
+  url: `photos/${createRandomIdFromRangeGenerator(1, CAT_COUNT)()}.jpg`,
   description: getRandomArrayElement(CAT_DESCRIPTION),
-  likes: getRandomInteger(0,30),
+  likes: getRandomInteger(15,200),
   comments: Array.from({length: getRandomInteger(1, 30)}, createComment)
 });
 
 // eslint-disable-next-line no-unused-vars
 const similarCat = Array.from({ length: CAT_COUNT }, createCat);
-
-
+console.log(similarCat)
