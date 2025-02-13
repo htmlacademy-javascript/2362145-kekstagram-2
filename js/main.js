@@ -63,20 +63,24 @@ function createRandomIdFromRangeGenerator (min, max) {
 
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
-const createComment = () => ({
-  id: createCommentPostId(),
-  avatar: `img/avatar-${createCommentCatAvatar()}.svg`,
-  message: getRandomArrayElement(POST_COMMENT_MESSAGE),
-  name: getRandomArrayElement(POST_COMMENT_NAME)
-});
+const createComment = function () {
+  return {
+    id: createCommentPostId(),
+    avatar: `img/avatar-${createCommentCatAvatar()}.svg`,
+    message: getRandomArrayElement(POST_COMMENT_MESSAGE),
+    name: getRandomArrayElement(POST_COMMENT_NAME)
+  };
+};
 
-const createCat = () => ({
-  id: createPostId(),
-  url: `photos/${createCatUrl()}.jpg`,
-  description: getRandomArrayElement(POST_DESCRIPTION),
-  likes: getRandomInteger(LIKES_COUNT.min, LIKES_COUNT.max),
-  comments: Array.from({length: getRandomInteger(COMMENT_COUNT.min, COMMENT_COUNT.max)}, createComment)
-});
+const createCat = function () {
+  return {
+    id: createPostId(),
+    url: `photos/${createCatUrl()}.jpg`,
+    description: getRandomArrayElement(POST_DESCRIPTION),
+    likes: getRandomInteger(LIKES_COUNT.min, LIKES_COUNT.max),
+    comments: Array.from({ length: getRandomInteger(COMMENT_COUNT.min, COMMENT_COUNT.max) }, createComment)
+  };
+};
 
 // eslint-disable-next-line no-unused-vars
 const similarCat = Array.from({ length: POST_COUNT }, createCat);
