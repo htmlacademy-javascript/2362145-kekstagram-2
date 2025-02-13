@@ -1,8 +1,8 @@
-const CAT_COUNT = 25;
-const CAT_COMMENT_AVATAR_COUNT = 6;
+const POST_COUNT = 25;
+const POST_COMMENT_AVATAR_COUNT = 6;
 //отдельные переменные где хранятся id, что-бы они не повторялись
-const createCatId = createRandomIdFromRangeGenerator(1, CAT_COUNT);
-const createCommentCatId = createRandomIdFromRangeGenerator(1, 1000);
+const createPostId = createRandomIdFromRangeGenerator(1, POST_COUNT);
+const createCommentPostId = createRandomIdFromRangeGenerator(1, 1000);
 const LIKES_COUNT = {
   min: 15,
   max: 200
@@ -11,7 +11,7 @@ const COMMENT_COUNT = {
   min: 0,
   max: 30
 };
-const CAT_DESCRIPTION = [
+const POST_DESCRIPTION = [
   'Достойный сын своего народа',
   'Звать меня бесполезно, лучше буду спокойно отдыхать',
   'Главный ночной тыгыдык',
@@ -19,7 +19,7 @@ const CAT_DESCRIPTION = [
   'Просто дайте мне вкусняшку',
   'Если вы видели плохих котов, то забудьте'
 ];
-const CAT_COMMENT_MESSAGE = [
+const POST_COMMENT_MESSAGE = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -27,7 +27,7 @@ const CAT_COMMENT_MESSAGE = [
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
-const CAT_COMMENT_NAME = [
+const POST_COMMENT_NAME = [
   'Барсик',
   'Пушок',
   'Снежок',
@@ -62,22 +62,22 @@ function createRandomIdFromRangeGenerator (min, max) {
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
 const createComment = () => ({
-  id: createCommentCatId(),
-  avatar: `img/avatar-${createRandomIdFromRangeGenerator(1, CAT_COMMENT_AVATAR_COUNT)()}.svg`,
-  message: getRandomArrayElement(CAT_COMMENT_MESSAGE),
-  name: getRandomArrayElement(CAT_COMMENT_NAME)
+  id: createCommentPostId(),
+  avatar: `img/avatar-${createRandomIdFromRangeGenerator(1, POST_COMMENT_AVATAR_COUNT)()}.svg`,
+  message: getRandomArrayElement(POST_COMMENT_MESSAGE),
+  name: getRandomArrayElement(POST_COMMENT_NAME)
 });
 
 const createCat = () => ({
-  id: createCatId(),
-  url: `photos/${createRandomIdFromRangeGenerator(1, CAT_COUNT)()}.jpg`,
-  description: getRandomArrayElement(CAT_DESCRIPTION),
+  id: createPostId(),
+  url: `photos/${createRandomIdFromRangeGenerator(1, POST_COUNT)()}.jpg`,
+  description: getRandomArrayElement(POST_DESCRIPTION),
   likes: getRandomInteger(LIKES_COUNT.min, LIKES_COUNT.max),
   comments: Array.from({length: getRandomInteger(COMMENT_COUNT.min, COMMENT_COUNT.max)}, createComment)
 });
 
 // eslint-disable-next-line no-unused-vars
-const similarCat = Array.from({ length: CAT_COUNT }, createCat);
+const similarCat = Array.from({ length: POST_COUNT }, createCat);
 // УДАЛИТЬ ВСЕ ЧТО НИЖЕ
 // eslint-disable-next-line no-console
 console.log(similarCat);
