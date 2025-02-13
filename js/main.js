@@ -2,7 +2,9 @@ const POST_COUNT = 25;
 const POST_COMMENT_AVATAR_COUNT = 6;
 //отдельные переменные где хранятся id, что-бы они не повторялись
 const createPostId = createRandomIdFromRangeGenerator(1, POST_COUNT);
-const createCommentPostId = createRandomIdFromRangeGenerator(1, 1000);
+const createCommentPostId = createRandomIdFromRangeGenerator(1, POST_COUNT * 10);
+const createCatUrl = createRandomIdFromRangeGenerator(1, POST_COUNT);
+const createCommentCatAvatar = () => getRandomInteger(1, POST_COMMENT_AVATAR_COUNT);
 const LIKES_COUNT = {
   min: 15,
   max: 200
@@ -36,7 +38,7 @@ const POST_COMMENT_NAME = [
   'Кнопа'
 ];
 
-function getRandomInteger(a, b) {
+function getRandomInteger (a, b) {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
   const result = Math.random() * (upper - lower + 1) + lower;
@@ -46,7 +48,7 @@ function getRandomInteger(a, b) {
 function createRandomIdFromRangeGenerator (min, max) {
   const previousValues = [];
 
-  return function someFunction () {
+  return function () {
     let currentValue = getRandomInteger(min, max);
     if (previousValues.length >= (max - min + 1)) {
       return null;
@@ -63,14 +65,14 @@ const getRandomArrayElement = (elements) => elements[getRandomInteger(0, element
 
 const createComment = () => ({
   id: createCommentPostId(),
-  avatar: `img/avatar-${createRandomIdFromRangeGenerator(1, POST_COMMENT_AVATAR_COUNT)()}.svg`,
+  avatar: `img/avatar-${createCommentCatAvatar()}.svg`,
   message: getRandomArrayElement(POST_COMMENT_MESSAGE),
   name: getRandomArrayElement(POST_COMMENT_NAME)
 });
 
 const createCat = () => ({
   id: createPostId(),
-  url: `photos/${createRandomIdFromRangeGenerator(1, POST_COUNT)()}.jpg`,
+  url: `photos/${createCatUrl()}.jpg`,
   description: getRandomArrayElement(POST_DESCRIPTION),
   likes: getRandomInteger(LIKES_COUNT.min, LIKES_COUNT.max),
   comments: Array.from({length: getRandomInteger(COMMENT_COUNT.min, COMMENT_COUNT.max)}, createComment)
