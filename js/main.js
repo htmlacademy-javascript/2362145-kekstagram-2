@@ -2,9 +2,9 @@ const POST_COUNT = 25;
 const POST_COMMENT_AVATAR_COUNT = 6;
 //отдельные переменные где хранятся id, что-бы они не повторялись
 const createPostId = createRandomIdFromRangeGenerator(1, POST_COUNT);
-const createCommentPostId = createRandomIdFromRangeGenerator(1, POST_COUNT * 10);
 const createPostUrl = createRandomIdFromRangeGenerator(1, POST_COUNT);
-const createCommentAvatar = () => getRandomInteger(1, POST_COMMENT_AVATAR_COUNT);
+const createCommentPostId = createRandomIdFromRangeGenerator(1, POST_COUNT * 10);
+const createCommentPostAvatar = () => getRandomInteger(1, POST_COMMENT_AVATAR_COUNT);
 const LIKES_COUNT = {
   min: 15,
   max: 200
@@ -66,7 +66,7 @@ const getRandomArrayElement = (elements) => elements[getRandomInteger(0, element
 const createComment = function () {
   return {
     id: createCommentPostId(),
-    avatar: `img/avatar-${createCommentAvatar()}.svg`,
+    avatar: `img/avatar-${createCommentPostAvatar()}.svg`,
     message: getRandomArrayElement(POST_COMMENT_MESSAGE),
     name: getRandomArrayElement(POST_COMMENT_NAME)
   };
