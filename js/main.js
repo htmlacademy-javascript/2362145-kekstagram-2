@@ -1,4 +1,4 @@
-import { similarPost } from './create-post.js';
+import { postsData } from './create-posts.js';
 
 // eslint-disable-next-line no-console
-console.log(similarPost());
+console.log(postsData);

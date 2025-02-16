@@ -26,6 +26,8 @@ const createPost = function () {
   };
 };
 
-const similarPost = () => Array.from({ length: POST_COUNT }, createPost);
+const createPosts = () => Array.from({ length: POST_COUNT }, createPost);
 
-export { similarPost };
+const postsData = createPosts();
+
+export { postsData };
