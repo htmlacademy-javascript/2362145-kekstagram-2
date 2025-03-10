@@ -11,9 +11,10 @@ const similarListFragment = document.createDocumentFragment();
 
 depictPosts.forEach(({id, url, description, likes, comments}) => {
   const picturePost = similarPictureTemplate.cloneNode(true);
+  const picturePostImg = picturePost.querySelector('.picture__img');
   picturePost.id = id;
-  picturePost.querySelector('.picture__img').src = url;
-  picturePost.querySelector('.picture__img').alt = description;
+  picturePostImg.src = url;
+  picturePostImg.alt = description;
   picturePost.querySelector('.picture__comments').textContent = comments.length;
   picturePost.querySelector('.picture__likes').textContent = likes;
   similarListFragment.appendChild(picturePost);

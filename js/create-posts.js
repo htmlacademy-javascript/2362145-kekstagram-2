@@ -1,6 +1,6 @@
 import {
   POST_COUNT,
-  POST_DESCRIPTION,
+  getMiniaturesData,
   LIKES_COUNT,
   COMMENT_COUNT
 } from './data.js';
@@ -15,6 +15,7 @@ import { createComment } from './create-comment.js';
 
 const createPostId = createRandomIdFromRangeGenerator(1, POST_COUNT);
 const createPostUrl = createRandomIdFromRangeGenerator(1, POST_COUNT);
+const { POST_DESCRIPTION } = getMiniaturesData();
 
 const createPost = function () {
   return {
