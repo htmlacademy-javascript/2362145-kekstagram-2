@@ -1,4 +1,4 @@
-import { postsData } from './create-posts.js';
+import { similarListElement } from './depict-posts.js';
 
 // eslint-disable-next-line no-console
-console.log(postsData);
+console.log(similarListElement);
