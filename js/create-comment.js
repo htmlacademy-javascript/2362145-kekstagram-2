@@ -1,8 +1,7 @@
 import {
   POST_COUNT,
   POST_COMMENT_AVATAR_COUNT,
-  POST_COMMENT_MESSAGE,
-  POST_COMMENT_NAME
+  getMiniaturesData
 } from './data.js';
 
 import {
@@ -13,6 +12,7 @@ import {
 
 const createCommentPostId = createRandomIdFromRangeGenerator(1, POST_COUNT * 10);
 const createCommentPostAvatar = () => getRandomInteger(1, POST_COMMENT_AVATAR_COUNT);
+const { POST_COMMENT_MESSAGE, POST_COMMENT_NAME } = getMiniaturesData();
 
 const createComment = function () {
   return {

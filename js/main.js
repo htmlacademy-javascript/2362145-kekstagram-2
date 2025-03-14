@@ -1,4 +1,3 @@
-import { postsData } from './create-posts.js';
+import { renderPics } from './render-posts.js';
 
-// eslint-disable-next-line no-console
-console.log(postsData);
+renderPics();
