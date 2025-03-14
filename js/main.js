@@ -1,4 +1,4 @@
-import { similarListElement } from './depict-thumbnails-posts.js';
+import { renderPics } from './render-posts.js';
 
 // eslint-disable-next-line no-console
-console.log(similarListElement);
+console.log(renderPics);

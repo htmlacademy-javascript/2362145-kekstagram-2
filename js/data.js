@@ -1,4 +1,4 @@
-const POST_COUNT = 25;
+const POST_COUNT = 26;
 const POST_COMMENT_AVATAR_COUNT = 6;
 
 const LIKES_COUNT = {
