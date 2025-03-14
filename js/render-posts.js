@@ -3,9 +3,10 @@ import { postsData } from './create-posts.js';
 const similarListElement = document.querySelector('.pictures');
 const similarPictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-const similarListFragment = document.createDocumentFragment();
 
 const renderPics = () => {
+  const similarListFragment = document.createDocumentFragment();
+
   postsData.forEach(({ id, url, description, likes, comments }) => {
     const picturePost = similarPictureTemplate.cloneNode(true);
     const picturePostImg = picturePost.querySelector('.picture__img');
@@ -15,11 +16,9 @@ const renderPics = () => {
     picturePost.querySelector('.picture__comments').textContent = comments.length;
     picturePost.querySelector('.picture__likes').textContent = likes;
     similarListFragment.appendChild(picturePost);
+    similarListElement.appendChild(similarListFragment);
   });
 };
 
-renderPics();
-
-similarListElement.appendChild(similarListFragment);
 
 export { renderPics };
