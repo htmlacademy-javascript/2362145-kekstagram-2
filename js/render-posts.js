@@ -16,8 +16,9 @@ const renderPics = () => {
     picturePost.querySelector('.picture__comments').textContent = comments.length;
     picturePost.querySelector('.picture__likes').textContent = likes;
     similarListFragment.appendChild(picturePost);
-    similarListElement.appendChild(similarListFragment);
   });
+
+  similarListElement.appendChild(similarListFragment);
 };
 
 
