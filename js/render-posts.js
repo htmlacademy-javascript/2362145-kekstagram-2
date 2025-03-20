@@ -1,10 +1,8 @@
 import { postsData } from './create-posts.js';
 import { openFullscreenModal } from './fullscreen-modal.js';
 
-
 const similarListElement = document.querySelector('.pictures');
 const similarPictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
-
 
 const renderPics = () => {
   const similarListFragment = document.createDocumentFragment();
