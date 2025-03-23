@@ -3,7 +3,9 @@ import { isEscapeKey } from './utils.js';
 
 const bigPicture = document.querySelector('.big-picture');
 const closeButton = bigPicture.querySelector('.big-picture__cancel');
+const bigPictureModalOpened = bigPicture.querySelector('.big-picture__preview');
 const body = document.body;
+const avatarRoundSize = 35;
 
 // Элементы модалки
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
@@ -23,8 +25,8 @@ const createCommentElement = ({ avatar, name, message }) => {
   img.className = 'social__picture';
   img.src = avatar;
   img.alt = name;
-  img.width = 35;
-  img.height = 35;
+  img.width = avatarRoundSize;
+  img.height = avatarRoundSize;
 
   const text = document.createElement('p');
   text.className = 'social__text';
@@ -57,12 +59,20 @@ const onDocumentKeydown = (evt) => {
 // eslint-disable-next-line no-use-before-define
 const onCloseButtonClick = () => closeFullscreenModal();
 
+const onNotModalClick = (evt) => {
+  if (!bigPictureModalOpened.contains(evt.target)) {
+    // eslint-disable-next-line no-use-before-define
+    closeFullscreenModal();
+  }
+};
+
 // Закрытие модалки
 const closeFullscreenModal = () => {
   bigPicture.classList.add('hidden');
   body.classList.remove('modal-open');
 
   document.removeEventListener('keydown', onDocumentKeydown);
+  bigPicture.removeEventListener('click', onNotModalClick);
   closeButton.removeEventListener('click', onCloseButtonClick);
 };
 
@@ -89,6 +99,7 @@ const openFullscreenModal = (postId) => {
 
   // Обработчики
   document.addEventListener('keydown', onDocumentKeydown);
+  bigPicture.addEventListener('click', onNotModalClick);
   closeButton.addEventListener('click', onCloseButtonClick);
 };
 
