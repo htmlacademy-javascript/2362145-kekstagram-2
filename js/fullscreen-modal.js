@@ -5,7 +5,7 @@ const bigPicture = document.querySelector('.big-picture');
 const closeButton = bigPicture.querySelector('.big-picture__cancel');
 const bigPictureModalOpened = bigPicture.querySelector('.big-picture__preview');
 const body = document.body;
-const avatarRoundSize = 35;
+const AVATAR_ROUND_SIZE = 35;
 
 // Элементы модалки
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
@@ -26,8 +26,8 @@ const createCommentElement = ({ avatar, name, message, id }) => {
   img.className = 'social__picture';
   img.src = avatar;
   img.alt = name;
-  img.width = avatarRoundSize;
-  img.height = avatarRoundSize;
+  img.width = AVATAR_ROUND_SIZE;
+  img.height = AVATAR_ROUND_SIZE;
   img.id = id;
 
   const text = document.createElement('p');
