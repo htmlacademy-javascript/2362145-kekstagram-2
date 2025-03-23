@@ -16,10 +16,11 @@ const commentCountBlock = bigPicture.querySelector('.social__comment-count');
 const commentsLoader = bigPicture.querySelector('.comments-loader');
 
 // Создание комментария через DocumentFragment
-const createCommentElement = ({ avatar, name, message }) => {
+const createCommentElement = ({ avatar, name, message, id }) => {
   const fragment = document.createDocumentFragment();
   const comment = document.createElement('li');
   comment.className = 'social__comment';
+  comment.id = id;
 
   const img = document.createElement('img');
   img.className = 'social__picture';
@@ -27,6 +28,7 @@ const createCommentElement = ({ avatar, name, message }) => {
   img.alt = name;
   img.width = avatarRoundSize;
   img.height = avatarRoundSize;
+  img.id = id;
 
   const text = document.createElement('p');
   text.className = 'social__text';
