@@ -21,12 +21,12 @@ const initCommentsPagination = (comments, container, loader, counter, total) => 
   const renderNextComments = () => {
     const commentsPortion = currentComments.slice(shownComments, shownComments + COMMENTS_PER_PAGE);
 
-    commentsPortion.forEach(({ avatar, name, message, id }) => {
+    commentsPortion.forEach(({ avatar, name, message, }) => {
       const comment = document.createElement('li');
       comment.className = 'social__comment';
       comment.innerHTML = `
         <img class="social__picture" src="${avatar}" alt="${name}"
-             width="${AVATAR_ROUND_SIZE}" height="${AVATAR_ROUND_SIZE}" id="avatar-${id}">
+             width="${AVATAR_ROUND_SIZE}" height="${AVATAR_ROUND_SIZE}">
         <p class="social__text">${message}</p>
       `;
       container.appendChild(comment);
