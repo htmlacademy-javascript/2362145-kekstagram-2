@@ -1,8 +1,8 @@
 import { postsData } from './create-posts.js';
+import { openFullscreenModal } from './fullscreen-modal.js';
 
 const similarListElement = document.querySelector('.pictures');
 const similarPictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
-
 
 const renderPics = () => {
   const similarListFragment = document.createDocumentFragment();
@@ -15,6 +15,8 @@ const renderPics = () => {
     picturePostImg.alt = description;
     picturePost.querySelector('.picture__comments').textContent = comments.length;
     picturePost.querySelector('.picture__likes').textContent = likes;
+    similarListFragment.appendChild(picturePost);
+    picturePost.addEventListener('click', () => openFullscreenModal(id));
     similarListFragment.appendChild(picturePost);
   });
 
