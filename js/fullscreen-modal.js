@@ -2,7 +2,6 @@ import { postsData } from './create-posts.js';
 import { isEscapeKey } from './utils.js';
 import { initCommentsPagination, destroyCommentsPagination } from './comments-pagination.js';
 
-
 const bigPicture = document.querySelector('.big-picture');
 const closeButton = bigPicture.querySelector('.big-picture__cancel');
 const bigPictureModalOpened = bigPicture.querySelector('.big-picture__preview');
@@ -40,11 +39,13 @@ const onNotModalClick = (evt) => {
 const closeFullscreenModal = () => {
   bigPicture.classList.add('hidden');
   body.classList.remove('modal-open');
-  destroyCommentsPagination(commentsLoader);
 
+  // Удаляем все обработчики
   document.removeEventListener('keydown', onDocumentKeydown);
   bigPicture.removeEventListener('click', onNotModalClick);
   closeButton.removeEventListener('click', onCloseButtonClick);
+
+  destroyCommentsPagination(commentsLoader);
 };
 
 // Открытие модалки
