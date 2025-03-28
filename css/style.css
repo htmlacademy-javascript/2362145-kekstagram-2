@@ -1429,3 +1429,15 @@ main {
 .hidden {
   display: none;
 }
+
+.img-upload__error-text {
+  color: #ff0000;
+  font-size: 12px;
+  margin: 5px 0;
+  padding: 0 15px;
+}
+
+.img-upload__field-wrapper--error .text__hashtags,
+.img-upload__field-wrapper--error .text__description {
+  border-color: #ff0000;
+}
