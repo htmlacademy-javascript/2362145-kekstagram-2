@@ -9,7 +9,6 @@ const hashtagInput = form.querySelector('.text__hashtags');
 const commentInput = form.querySelector('.text__description');
 const overlayElement = form.querySelector('.img-upload__wrapper');
 
-// Объединяем конфигурационные константы в один объект
 const CONFIG = {
   HASHTAG: {
     MAX_LENGTH: 20,
@@ -65,8 +64,7 @@ pristine.addValidator(
 
 // Обработчики событий
 const onEscKeydown = (evt) => {
-  if (isEscapeKey(evt) && !document.activeElement.matches('.text__hashtags, .text__description')) {
-    evt.preventDefault();
+  if (isEscapeKey(evt)) {
     // eslint-disable-next-line no-use-before-define
     closeForm();
   }
@@ -79,7 +77,7 @@ const onInputKeydown = (evt) => {
 };
 
 const onDocumentClick = (evt) => {
-  if (!overlayElement.contains(evt.target) && !evt.target.closest('.img-upload__input')) {
+  if (!overlayElement.contains(evt.target)) {
     // eslint-disable-next-line no-use-before-define
     closeForm();
   }
