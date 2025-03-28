@@ -1,3 +1,4 @@
+import { isEscapeKey } from './utils';
 const Pristine = window.Pristine;
 
 const form = document.querySelector('.img-upload__form');
@@ -8,36 +9,34 @@ const hashtagInput = form.querySelector('.text__hashtags');
 const commentInput = form.querySelector('.text__description');
 const overlayElement = form.querySelector('.img-upload__wrapper');
 
-// Конфигурация
-const HASHTAG_MAX_LENGTH = 20;
-const HASHTAG_MAX_COUNT = 5;
-const COMMENT_MAX_LENGTH = 140;
-
-// Регулярное выражение для хэштега
-const HASHTAG_REGEX = /^#[a-zа-яё0-9]{1,19}$/i;
+// Объединяем конфигурационные константы в один объект
+const CONFIG = {
+  HASHTAG: {
+    MAX_LENGTH: 20,
+    MAX_COUNT: 5,
+    REGEX: /^#[a-zа-яё0-9]{1,19}$/i
+  },
+  COMMENT: {
+    MAX_LENGTH: 140
+  }
+};
 
 // Валидация хэштегов
 const validateHashtags = (value) => {
   if (!value.trim()) {
-    return true; // Поле пустое - валидно
+    return true;
   }
 
   const hashtags = value.toLowerCase().split(/\s+/);
+  const uniqueHashtags = new Set(hashtags);
 
-  // Проверка условий
-  const isValid = hashtags.every((tag) => {
-    const isFormatValid = HASHTAG_REGEX.test(tag);
-    const isLengthValid = tag.length <= HASHTAG_MAX_LENGTH;
-    return isFormatValid && isLengthValid;
-  }) &&
-  hashtags.length <= HASHTAG_MAX_COUNT &&
-  new Set(hashtags).size === hashtags.length;
-
-  return isValid;
+  return hashtags.length <= CONFIG.HASHTAG.MAX_COUNT
+    && uniqueHashtags.size === hashtags.length
+    && hashtags.every((tag) => CONFIG.HASHTAG.REGEX.test(tag));
 };
 
 // Валидация комментария
-const validateComment = (value) => value.length <= COMMENT_MAX_LENGTH;
+const validateComment = (value) => value.length <= CONFIG.COMMENT.MAX_LENGTH;
 
 // Инициализация Pristine
 const pristine = new Pristine(form, {
@@ -54,19 +53,19 @@ pristine.addValidator(
   `Хэштеги должны:
   - Начинаться с #
   - Содержать только буквы/цифры
-  - Быть короче ${HASHTAG_MAX_LENGTH} символов
-  - Максимум ${HASHTAG_MAX_COUNT} уникальных тегов`
+  - Быть короче ${CONFIG.HASHTAG.MAX_LENGTH} символов
+  - Максимум ${CONFIG.HASHTAG.MAX_COUNT} уникальных тегов`
 );
 
 pristine.addValidator(
   commentInput,
   validateComment,
-  `Комментарий не должен превышать ${COMMENT_MAX_LENGTH} символов`
+  `Комментарий не должен превышать ${CONFIG.COMMENT.MAX_LENGTH} символов`
 );
 
 // Обработчики событий
 const onEscKeydown = (evt) => {
-  if (evt.key === 'Escape' && !document.activeElement.matches('.text__hashtags, .text__description')) {
+  if (isEscapeKey(evt) && !document.activeElement.matches('.text__hashtags, .text__description')) {
     evt.preventDefault();
     // eslint-disable-next-line no-use-before-define
     closeForm();
@@ -74,7 +73,7 @@ const onEscKeydown = (evt) => {
 };
 
 const onInputKeydown = (evt) => {
-  if (evt.key === 'Escape') {
+  if (isEscapeKey(evt)) {
     evt.stopPropagation();
   }
 };
