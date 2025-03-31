@@ -20,18 +20,30 @@ const CONFIG = {
   }
 };
 
-// Валидация хэштегов
-const validateHashtags = (value) => {
+// Отдельные проверки валидации хэштегов
+const validateHashtagFormat = (value) => {
   if (!value.trim()) {
     return true;
   }
+  const hashtags = value.toLowerCase().split(/\s+/);
+  return hashtags.every((tag) => CONFIG.HASHTAG.REGEX.test(tag));
+};
 
+const validateHashtagCount = (value) => {
+  if (!value.trim()) {
+    return true;
+  }
+  const hashtags = value.toLowerCase().split(/\s+/);
+  return hashtags.length <= CONFIG.HASHTAG.MAX_COUNT;
+};
+
+const validateHashtagUniqueness = (value) => {
+  if (!value.trim()) {
+    return true;
+  }
   const hashtags = value.toLowerCase().split(/\s+/);
   const uniqueHashtags = new Set(hashtags);
-
-  return hashtags.length <= CONFIG.HASHTAG.MAX_COUNT
-    && uniqueHashtags.size === hashtags.length
-    && hashtags.every((tag) => CONFIG.HASHTAG.REGEX.test(tag));
+  return uniqueHashtags.size === hashtags.length;
 };
 
 // Валидация комментария
@@ -41,25 +53,33 @@ const validateComment = (value) => value.length <= CONFIG.COMMENT.MAX_LENGTH;
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
-  errorTextClass: 'img-upload__error-text',
+  errorTextClass: 'img-upload__field-wrapper--error',
   errorTextTag: 'div'
 });
 
-// Добавление валидаторов
+// Обновляем добавление валидаторов с отдельными сообщениями
 pristine.addValidator(
   hashtagInput,
-  validateHashtags,
-  `Хэштеги должны:
-  - Начинаться с #
-  - Содержать только буквы/цифры
-  - Быть короче ${CONFIG.HASHTAG.MAX_LENGTH} символов
-  - Максимум ${CONFIG.HASHTAG.MAX_COUNT} уникальных тегов`
+  validateHashtagFormat,
+  'Хэштег должен начинаться с # и содержать только буквы и цифры'
+);
+
+pristine.addValidator(
+  hashtagInput,
+  validateHashtagCount,
+  `Максимальное количество хэштегов - ${CONFIG.HASHTAG.MAX_COUNT}`
+);
+
+pristine.addValidator(
+  hashtagInput,
+  validateHashtagUniqueness,
+  'Хэштеги не должны повторяться'
 );
 
 pristine.addValidator(
   commentInput,
   validateComment,
-  `Комментарий не должен превышать ${CONFIG.COMMENT.MAX_LENGTH} символов`
+  `Длина комментария не может превышать ${CONFIG.COMMENT.MAX_LENGTH} символов`
 );
 
 // Обработчики событий
@@ -113,6 +133,11 @@ form.addEventListener('submit', (evt) => {
   evt.preventDefault(); // Всегда предотвращаем отправку
 
   if (pristine.validate()) {
+    const hashtagValue = hashtagInput.value.trim();
+    const commentValue = commentInput.value.trim();
+
+    hashtagInput.value = hashtagValue;
+    commentInput.value = commentValue;
     // Только при успешной валидации
     form.submit();
   }
