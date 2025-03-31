@@ -133,11 +133,11 @@ form.addEventListener('submit', (evt) => {
   evt.preventDefault(); // Всегда предотвращаем отправку
 
   if (pristine.validate()) {
-    const hashtagValue = hashtagInput.value.trim();
-    const commentValue = commentInput.value.trim();
+    const hashtagTrimValue = hashtagInput.value.trim();
+    const commentTrimValue = commentInput.value.trim();
 
-    hashtagInput.value = hashtagValue;
-    commentInput.value = commentValue;
+    hashtagInput.value = hashtagTrimValue;
+    commentInput.value = commentTrimValue;
     // Только при успешной валидации
     form.submit();
   }
