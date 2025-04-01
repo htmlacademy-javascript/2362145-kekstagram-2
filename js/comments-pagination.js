@@ -24,11 +24,19 @@ const initCommentsPagination = (comments, container, loader, counter, total) => 
     commentsPortion.forEach(({ avatar, name, message, }) => {
       const comment = document.createElement('li');
       comment.className = 'social__comment';
-      comment.innerHTML = `
-        <img class="social__picture" src="${avatar}" alt="${name}"
-             width="${AVATAR_ROUND_SIZE}" height="${AVATAR_ROUND_SIZE}">
-        <p class="social__text">${message}</p>
-      `;
+      const img = document.createElement('img');
+      img.classList.add('social__picture');
+      img.src = avatar;
+      img.alt = name;
+      img.width = AVATAR_ROUND_SIZE;
+      img.height = AVATAR_ROUND_SIZE;
+
+      const text = document.createElement('p');
+      text.classList.add('social__text');
+      text.textContent = message;
+
+      comment.appendChild(img);
+      comment.appendChild(text);
       container.appendChild(comment);
     });
 
@@ -41,7 +49,6 @@ const initCommentsPagination = (comments, container, loader, counter, total) => 
   };
 
   loader.addEventListener('click', renderNextComments);
-  renderNextComments();
 };
 
 const destroyCommentsPagination = (loader) => {
