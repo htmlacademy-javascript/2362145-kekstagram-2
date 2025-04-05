@@ -48,6 +48,7 @@ const initCommentsPagination = (comments, container, loader, counter, total) => 
     }
   };
 
+  renderNextComments();
   loader.addEventListener('click', renderNextComments);
 };
 
