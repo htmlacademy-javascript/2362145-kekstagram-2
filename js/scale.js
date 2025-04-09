@@ -9,9 +9,6 @@ const scaleControlBigger = document.querySelector('.scale__control--bigger');
 const scaleControlValue = document.querySelector('.scale__control--value');
 
 // Изменяет масштаб изображения и записывает значение в поле формы
-/**
- * @param { number } value - значение масштаба в процентах
- */
 const setScale = (value) => {
   const scale = Math.min(Math.max(value, MIN_SCALE), MAX_SCALE);
   imageUploadPreview.style.transform = `scale(${scale / 100})`;

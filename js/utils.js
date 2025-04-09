@@ -1,4 +1,6 @@
-function getRandomInteger (a, b) {
+const ALERT_SHOW_TIME = 5000;
+
+function getRandomInteger(a, b) {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
   const result = Math.random() * (upper - lower + 1) + lower;
@@ -25,9 +27,22 @@ const getRandomArrayElement = (elements) => elements[getRandomInteger(0, element
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
+const showAlert = (tag) => {
+  const alertTemplate = document.querySelector(`#${tag}`);
+  const alertElement = alertTemplate.content.cloneNode(true);
+  const alertContainer = alertElement.querySelector(`.${tag}`);
+
+  document.body.append(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, ALERT_SHOW_TIME);
+};
+
 export {
   getRandomInteger,
   createRandomIdFromRangeGenerator,
   getRandomArrayElement,
-  isEscapeKey
+  isEscapeKey,
+  showAlert
 };

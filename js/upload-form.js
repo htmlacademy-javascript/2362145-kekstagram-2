@@ -1,16 +1,11 @@
-import { isEscapeKey } from './utils.js';
-import { initScale, destroyScale, resetScale } from './scale.js';
-import { initEffect, destroyEffect, resetEffect } from './effect.js';
+import { sendData } from './api.js';
+import { showAlert } from './utils.js';
+
+const Pristine = window.Pristine;
 
 const form = document.querySelector('.img-upload__form');
-const uploadInput = form.querySelector('.img-upload__input');
-const overlay = form.querySelector('.img-upload__overlay');
-const closeButton = form.querySelector('.img-upload__cancel');
 const hashtagInput = form.querySelector('.text__hashtags');
 const commentInput = form.querySelector('.text__description');
-const overlayElement = form.querySelector('.img-upload__wrapper');
-const uploadImgPreview = form.querySelector('.img-upload__preview img');
-
 
 const CONFIG = {
   HASHTAG: {
@@ -23,11 +18,6 @@ const CONFIG = {
   }
 };
 
-/**
- * Нормализует строку хэштегов, заменяя множественные пробелы на один
- * @param {string} value - строка с хэштегами
- * @returns {string} - нормализованная строка
- */
 const normalizeHashtags = (value) => {
   if (!value.trim()) {
     return '';
@@ -35,11 +25,6 @@ const normalizeHashtags = (value) => {
   return value.trim().replace(/\s+/g, ' ');
 };
 
-/**
- * Получает массив хэштегов из строки
- * @param {string} value - строка с хэштегами
- * @returns {string[]} - массив хэштегов
- */
 const getHashtagsArray = (value) => {
   if (!value.trim()) {
     return [];
@@ -115,77 +100,19 @@ const onHashtagInputBlur = () => {
   hashtagInput.value = normalizedValue;
 };
 
-// Обработчики событий
-const onEscKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    // eslint-disable-next-line no-use-before-define
-    closeForm();
-  }
+const setFormSubmit = (onSuccess) => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const isValid = pristine.validate();
+    if (isValid) {
+      sendData(new FormData(evt.target))
+        .then(onSuccess)
+        .catch(() => {
+          showAlert('error');
+        });
+    }
+  });
 };
 
-const onInputKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.stopPropagation();
-  }
-};
-
-const onDocumentClick = (evt) => {
-  if (!overlayElement.contains(evt.target)) {
-    // eslint-disable-next-line no-use-before-define
-    closeForm();
-  }
-};
-
-const openForm = () => {
-  overlay.classList.remove('hidden');
-  document.body.classList.add('modal-open');
-
-  // загружаем изображение
-  uploadImgPreview.src = URL.createObjectURL(uploadInput.files[0]);
-
-  // инициализируем масштаб и эффект
-  initScale();
-  initEffect();
-
-  // добавляем обработчики событий
-  document.addEventListener('keydown', onEscKeydown);
-  document.addEventListener('click', onDocumentClick);
-  hashtagInput.addEventListener('keydown', onInputKeydown);
-  hashtagInput.addEventListener('blur', onHashtagInputBlur);
-  commentInput.addEventListener('keydown', onInputKeydown);
-};
-
-const closeForm = () => {
-  // сбрасываем форму
-  form.reset();
-  uploadInput.value = '';
-  overlay.classList.add('hidden');
-  document.body.classList.remove('modal-open');
-  pristine.reset();
-  resetScale();
-  resetEffect();
-  document.removeEventListener('keydown', onEscKeydown);
-  document.removeEventListener('click', onDocumentClick);
-  hashtagInput.removeEventListener('keydown', onInputKeydown);
-  hashtagInput.removeEventListener('blur', onHashtagInputBlur);
-  commentInput.removeEventListener('keydown', onInputKeydown);
-  destroyScale();
-  destroyEffect();
-};
-
-// Инициализация
-uploadInput.addEventListener('change', openForm);
-closeButton.addEventListener('click', closeForm);
-
-form.addEventListener('submit', (evt) => {
-  evt.preventDefault(); // Всегда предотвращаем отправку
-
-  // Нормализуем хэштеги перед валидацией при отправке
-  hashtagInput.value = normalizeHashtags(hashtagInput.value);
-  commentInput.value = commentInput.value.trim();
-
-  if (pristine.validate()) {
-    // Только при успешной валидации
-    form.submit();
-  }
-});
+export { pristine, onHashtagInputBlur, setFormSubmit };
