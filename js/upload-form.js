@@ -1,11 +1,18 @@
 import { sendData } from './api.js';
 import { showAlert } from './utils.js';
-
 const Pristine = window.Pristine;
 
 const form = document.querySelector('.img-upload__form');
 const hashtagInput = form.querySelector('.text__hashtags');
 const commentInput = form.querySelector('.text__description');
+const uploadOverlay = form.querySelector('.img-upload__overlay');
+const submitButton = uploadOverlay.querySelector('.img-upload__submit');
+
+
+const SubmitButtonText = {
+  IDLE: 'Опубликовать',
+  SENDING: 'Публикую...'
+};
 
 const CONFIG = {
   HASHTAG: {
@@ -100,16 +107,32 @@ const onHashtagInputBlur = () => {
   hashtagInput.value = normalizedValue;
 };
 
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = SubmitButtonText.SENDING;
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = SubmitButtonText.IDLE;
+};
+
 const setFormSubmit = (onSuccess) => {
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
     const isValid = pristine.validate();
     if (isValid) {
+      blockSubmitButton();
       sendData(new FormData(evt.target))
-        .then(onSuccess)
+        .then(() => {
+          onSuccess();
+        })
         .catch(() => {
           showAlert('error');
+        })
+        .finally(() => {
+          unblockSubmitButton();
         });
     }
   });

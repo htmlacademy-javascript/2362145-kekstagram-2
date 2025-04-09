@@ -4,7 +4,9 @@ import { setFormSubmit } from './upload-form.js';
 import { closeForm } from './user-modal.js';
 import { getData } from './api.js';
 
+getData((data) => {
+  renderPics(data);
+});
 
-getData((response) => renderPics(response));
 setFormSubmit(closeForm);
 

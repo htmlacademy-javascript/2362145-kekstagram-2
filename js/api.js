@@ -12,33 +12,30 @@ const getData = (onSuccess) => {
     .then((response) => {
       if (response.ok) {
         return response.json();
-      } else {
-        showAlert('data-error');
       }
+      throw new Error('Ошибка загрузки данных');
     })
-    .then((response) => {
-      onSuccess(response);
+    .then((data) => {
+      onSuccess(data);
+    })
+    .catch(() => {
+      showAlert('data-error');
     });
 };
 
-const sendData = (body) => {
-  fetch(
-    `${BASE_URL}${Route.SEND_DATA}`,
-    {
-      method: 'POST',
-      body,
-    })
-    .then((response) => {
-      if (response.ok) {
-        console.log('отправлено успешно');
-      } else {
-        showAlert('error');
-        console.log('не отправлено');
-      }
-    })
-    .catch(() => {
-      showAlert('error');
-    });
-};
+const sendData = (body) => fetch(`${BASE_URL}${Route.SEND_DATA}`, {
+  method: 'POST',
+  body,
+})
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error('Ошибка отправки данных');
+    }
+    return response.json();
+  })
+  .catch(() => {
+    showAlert('error');
+    throw new Error('Ошибка отправки данных');
+  });
 
 export { getData, sendData };
