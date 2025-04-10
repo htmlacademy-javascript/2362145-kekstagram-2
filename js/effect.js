@@ -8,11 +8,6 @@ const imageUploadPreview = document.querySelector('.img-upload__preview img');
 
 let currentEffect = EFFECTS.none;
 
-/**
- * Применяет эффект к изображению
- * @param {string} effectName - название эффекта
- * @param {number} value - значение эффекта
- */
 const applyEffect = (effectName, value) => {
   const effect = EFFECTS[effectName];
 
@@ -36,10 +31,6 @@ const onSliderUpdate = () => {
   applyEffect(currentEffect.name, sliderValue);
 };
 
-/**
- * Обработчик изменения эффекта
- * @param {Event} evt - объект события
- */
 const onEffectChange = (evt) => {
   if (!evt.target.matches('input[type="radio"]')) {
     return;
@@ -109,9 +100,8 @@ const destroyEffect = () => {
   effectsList.removeEventListener('change', onEffectChange);
 };
 
-/**
- * Сбрасывает эффект к значению по умолчанию
- */
+
+// Сбрасывает эффект к значению по умолчанию
 const resetEffect = () => {
   currentEffect = EFFECTS.none;
   effectLevelContainer.classList.add('hidden');

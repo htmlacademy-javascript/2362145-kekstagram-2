@@ -1,6 +1,6 @@
-import { postsData } from './create-posts.js';
 import { isEscapeKey } from './utils.js';
 import { initCommentsPagination, destroyCommentsPagination } from './comments-pagination.js';
+import { postsData } from './render-posts.js';
 
 const bigPicture = document.querySelector('.big-picture');
 const closeButton = bigPicture.querySelector('.big-picture__cancel');

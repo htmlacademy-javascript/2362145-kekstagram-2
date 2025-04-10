@@ -29,6 +29,4 @@ const createPost = function () {
 
 const createPosts = () => Array.from({ length: POST_COUNT }, createPost);
 
-const postsData = createPosts();
-
-export { postsData };
+export { createPosts };

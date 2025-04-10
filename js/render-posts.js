@@ -1,10 +1,12 @@
-import { postsData } from './create-posts.js';
 import { openFullscreenModal } from './fullscreen-modal.js';
 
 const similarListElement = document.querySelector('.pictures');
 const similarPictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-const renderPics = () => {
+let postsData = [];
+
+const renderPics = (data) => {
+  postsData = data;
   const similarListFragment = document.createDocumentFragment();
 
   postsData.forEach(({ id, url, description, likes, comments }) => {
@@ -23,5 +25,4 @@ const renderPics = () => {
   similarListElement.appendChild(similarListFragment);
 };
 
-
-export { renderPics };
+export { renderPics, postsData };
