@@ -8,7 +8,6 @@ const commentInput = form.querySelector('.text__description');
 const uploadOverlay = form.querySelector('.img-upload__overlay');
 const submitButton = uploadOverlay.querySelector('.img-upload__submit');
 
-
 const SubmitButtonText = {
   IDLE: 'Опубликовать',
   SENDING: 'Публикую...'

@@ -2,40 +2,45 @@ import { showAlert } from './utils.js';
 
 const BASE_URL = 'https://31.javascript.htmlacademy.pro/kekstagram';
 
-const Route = {
+const ROUTE = {
   GET_DATA: '/data',
-  SEND_DATA: '/',
+  SEND_DATA: '/'
 };
 
-const getData = (onSuccess) => {
-  fetch(`${BASE_URL}${Route.GET_DATA}`)
+const METHODS = {
+  GET: 'GET',
+  POST: 'POST'
+};
+
+const loadingData = (route, method = METHODS.GET, body = null) =>
+  fetch(`${BASE_URL}${route}`, { method, body })
     .then((response) => {
       if (response.ok) {
         return response.json();
       }
-      throw new Error('Ошибка загрузки данных');
-    })
+    });
+
+const getData = (onSuccess) =>
+  loadingData(ROUTE.GET_DATA)
     .then((data) => {
       onSuccess(data);
     })
     .catch(() => {
       showAlert('data-error');
     });
-};
 
-const sendData = (body) => fetch(`${BASE_URL}${Route.SEND_DATA}`, {
-  method: 'POST',
-  body,
-})
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error('Ошибка отправки данных');
-    }
-    return response.json();
-  })
-  .catch(() => {
-    showAlert('error');
-    throw new Error('Ошибка отправки данных');
-  });
+const sendData = (body) =>
+  loadingData(ROUTE.SEND_DATA, METHODS.POST, body)
+    .then((response) => {
+      if (!response.ok) {
+        showAlert('error');
+      }
+    })
+    .then(() => {
+      showAlert('success');
+    })
+    .catch(() => {
+      showAlert('error');
+    });
 
 export { getData, sendData };
