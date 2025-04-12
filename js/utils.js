@@ -31,37 +31,54 @@ const showAlert = (tag) => {
   const alertTemplate = document.querySelector(`#${tag}`);
   const alertElement = alertTemplate.content.cloneNode(true);
   const alertContainer = alertElement.querySelector(`.${tag}`);
+  // const alertInner = alertContainer.querySelector(`.${tag}__inner`);
+
+  let onEscKeydown = null;
+  // let onOutsideClick = null;
+
+  function closeAlert() {
+    alertContainer.remove();
+    document.removeEventListener('keydown', onEscKeydown);
+    // document.removeEventListener('click', onOutsideClick);
+  }
+
+  onEscKeydown = function (evt) {
+    if (isEscapeKey(evt)) {
+      closeAlert();
+    }
+  };
+
+  // onOutsideClick = function (evt) {
+  //   if (!alertInner.contains(evt.target)) {
+  //     closeAlert();
+  //   }
+  // };
 
   document.body.append(alertContainer);
 
-  setTimeout(() => {
-    alertContainer.remove();
-  }, ALERT_SHOW_TIME);
-  // Проверяем, существует ли кнопка в шаблоне
-  const errorButton = alertContainer.querySelector(`.${tag}__button`);
-  const closeAlert = () => alertContainer.remove();
-
-  document.addEventListener('click', closeAlert);
-
-  // Добавляем обработчик клика на документ для закрытия уведомления
-  const onDocumentClick = (evt) => {
-    if (alertContainer.contains(evt.target) && evt.target === errorButton) {
-      alertContainer.remove();
-      document.removeEventListener('click', onDocumentClick);
-    }
-  };
-
-  // Добавляем обработчик нажатия клавиши Escape
-  const onEscKeydown = (evt) => {
-    if (isEscapeKey(evt)) {
-      alertContainer.remove();
-      document.removeEventListener('keydown', onEscKeydown);
-      document.removeEventListener('click', onDocumentClick);
-    }
-  };
-
-  document.addEventListener('click', onDocumentClick);
   document.addEventListener('keydown', onEscKeydown);
+  // document.addEventListener('click', onOutsideClick);
+
+  if (tag === 'data-error') {
+    setTimeout(() => {
+      alertContainer.remove();
+    }, ALERT_SHOW_TIME);
+    document.removeEventListener('keydown', onEscKeydown);
+    // document.removeEventListener('click', onOutsideClick);
+  }
+
+  const errorButton = alertContainer.querySelector(`.${tag}__button`);
+  if (errorButton) {
+    errorButton.addEventListener('click', closeAlert);
+  }
+};
+
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
 };
 
 export {
@@ -69,5 +86,6 @@ export {
   createRandomIdFromRangeGenerator,
   getRandomArrayElement,
   isEscapeKey,
-  showAlert
+  showAlert,
+  debounce
 };

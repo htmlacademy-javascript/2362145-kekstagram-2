@@ -9,9 +9,8 @@ const overlay = form.querySelector('.img-upload__overlay');
 const closeButton = form.querySelector('.img-upload__cancel');
 const hashtagInput = form.querySelector('.text__hashtags');
 const commentInput = form.querySelector('.text__description');
-const overlayElement = form.querySelector('.img-upload__wrapper');
+// const overlayElement = form.querySelector('.img-upload__overlay');
 const uploadImgPreview = form.querySelector('.img-upload__preview img');
-
 
 // Обработчики событий
 const onEscKeydown = (evt) => {
@@ -26,14 +25,20 @@ const onInputKeydown = (evt) => {
     evt.stopPropagation();
   }
 };
+// /*
+// const onDocumentClick = (evt) => {
+//   // const hasActiveAlert = document.querySelector('.error, .success, .data-error');
 
-const onDocumentClick = (evt) => {
-  if (!overlayElement.contains(evt.target)) {
-    // eslint-disable-next-line no-use-before-define
-    closeForm();
-  }
-};
+//   // if (hasActiveAlert || !overlayElement.contains(evt.target)) {
+//   //   return;
+//   // }
 
+//   if (!overlayElement.contains(evt.target)) {
+//     // eslint-disable-next-line no-use-before-define
+//     closeForm();
+//   }
+// };
+// */
 const openForm = () => {
   overlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
@@ -47,26 +52,31 @@ const openForm = () => {
 
   // добавляем обработчики событий
   document.addEventListener('keydown', onEscKeydown);
-  document.addEventListener('click', onDocumentClick);
+  // document.addEventListener('click', onDocumentClick);
   hashtagInput.addEventListener('keydown', onInputKeydown);
   hashtagInput.addEventListener('blur', onHashtagInputBlur);
   commentInput.addEventListener('keydown', onInputKeydown);
 };
 
-const closeForm = () => {
-  // сбрасываем форму
-  form.reset();
-  uploadInput.value = '';
+const closeForm = (resetForm = true) => {
+  if (resetForm) {
+    form.reset();
+    uploadInput.value = '';
+    pristine.reset();
+  }
+
   overlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
-  pristine.reset();
+
   resetScale();
   resetEffect();
+
   document.removeEventListener('keydown', onEscKeydown);
-  document.removeEventListener('click', onDocumentClick);
+  // document.removeEventListener('click', onDocumentClick);
   hashtagInput.removeEventListener('keydown', onInputKeydown);
   hashtagInput.removeEventListener('blur', onHashtagInputBlur);
   commentInput.removeEventListener('keydown', onInputKeydown);
+
   destroyScale();
   destroyEffect();
 };

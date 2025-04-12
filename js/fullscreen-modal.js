@@ -1,11 +1,12 @@
 import { isEscapeKey } from './utils.js';
-import { initCommentsPagination, destroyCommentsPagination } from './comments-pagination.js';
+import { initCommentsPagination } from './comments-pagination.js';
 import { postsData } from './render-posts.js';
 
 const bigPicture = document.querySelector('.big-picture');
 const closeButton = bigPicture.querySelector('.big-picture__cancel');
 const bigPictureModalOpened = bigPicture.querySelector('.big-picture__preview');
 const body = document.body;
+let cleanupComments = null;
 
 // Элементы модалки
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
@@ -35,22 +36,13 @@ const onNotModalClick = (evt) => {
   }
 };
 
-// Закрытие модалки
-const closeFullscreenModal = () => {
-  bigPicture.classList.add('hidden');
-  body.classList.remove('modal-open');
-
-  // Удаляем все обработчики
-  document.removeEventListener('keydown', onDocumentKeydown);
-  bigPicture.removeEventListener('click', onNotModalClick);
-  closeButton.removeEventListener('click', onCloseButtonClick);
-
-  destroyCommentsPagination(commentsLoader);
-};
-
-// Открытие модалки
 const openFullscreenModal = (postId) => {
   const post = postsData.find(({ id }) => id === postId);
+
+  // Очищаем предыдущие комментарии
+  if (cleanupComments) {
+    cleanupComments();
+  }
 
   // Заполняем данные
   bigPictureImg.src = post.url;
@@ -58,8 +50,8 @@ const openFullscreenModal = (postId) => {
   socialCaption.textContent = post.description;
   likesCount.textContent = post.likes;
 
-  // Инициализация отрисовки комментариев
-  initCommentsPagination(
+  // Инициализация пагинации с сохранением функции очистки
+  cleanupComments = initCommentsPagination(
     post.comments,
     socialComments,
     commentsLoader,
@@ -71,10 +63,27 @@ const openFullscreenModal = (postId) => {
   bigPicture.classList.remove('hidden');
   body.classList.add('modal-open');
 
-  // Обработчики
+  // Обработчики закрытия
   document.addEventListener('keydown', onDocumentKeydown);
   bigPicture.addEventListener('click', onNotModalClick);
   closeButton.addEventListener('click', onCloseButtonClick);
 };
+
+const closeFullscreenModal = () => {
+  bigPicture.classList.add('hidden');
+  body.classList.remove('modal-open');
+
+  // Вызываем очистку комментариев
+  if (cleanupComments) {
+    cleanupComments();
+    cleanupComments = null;
+  }
+
+  // Удаляем обработчики
+  document.removeEventListener('keydown', onDocumentKeydown);
+  bigPicture.removeEventListener('click', onNotModalClick);
+  closeButton.removeEventListener('click', onCloseButtonClick);
+};
+
 
 export { openFullscreenModal };

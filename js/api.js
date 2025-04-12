@@ -31,16 +31,12 @@ const getData = (onSuccess) =>
 
 const sendData = (body) =>
   loadingData(ROUTE.SEND_DATA, METHODS.POST, body)
-    .then((response) => {
-      if (!response.ok) {
-        showAlert('error');
-      }
-    })
     .then(() => {
       showAlert('success');
     })
-    .catch(() => {
+    .catch((error) => {
       showAlert('error');
+      return Promise.reject(error);
     });
 
 export { getData, sendData };
