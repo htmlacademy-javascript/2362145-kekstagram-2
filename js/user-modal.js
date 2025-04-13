@@ -25,20 +25,7 @@ const onInputKeydown = (evt) => {
     evt.stopPropagation();
   }
 };
-// /*
-// const onDocumentClick = (evt) => {
-//   // const hasActiveAlert = document.querySelector('.error, .success, .data-error');
 
-//   // if (hasActiveAlert || !overlayElement.contains(evt.target)) {
-//   //   return;
-//   // }
-
-//   if (!overlayElement.contains(evt.target)) {
-//     // eslint-disable-next-line no-use-before-define
-//     closeForm();
-//   }
-// };
-// */
 const openForm = () => {
   overlay.classList.remove('hidden');
   document.body.classList.add('modal-open');

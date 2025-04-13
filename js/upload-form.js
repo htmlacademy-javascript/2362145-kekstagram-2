@@ -1,4 +1,5 @@
 import { sendData } from './api.js';
+import { showSuccessMessage } from './alerts.js';
 const Pristine = window.Pristine;
 
 const form = document.querySelector('.img-upload__form');
@@ -124,6 +125,7 @@ const setFormSubmit = (onSuccess) => {
       blockSubmitButton();
       sendData(new FormData(evt.target))
         .then(onSuccess)
+        .then(showSuccessMessage)
         .finally(() => {
           unblockSubmitButton();
         });
