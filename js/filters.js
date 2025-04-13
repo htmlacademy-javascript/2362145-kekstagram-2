@@ -1,5 +1,5 @@
 import { debounce } from './utils.js';
-import { renderGallery } from './gallery.js';
+import { renderPics } from './render-posts.js';
 
 const RANDOM_PHOTOS_COUNT = 10;
 const DEBOUNCE_DELAY = 500;
@@ -22,7 +22,7 @@ const filterHandlers = {
 
 const updateGallery = debounce((filterType) => {
   const filteredPhotos = filterHandlers[filterType](currentPhotos);
-  renderGallery(filteredPhotos);
+  renderPics(filteredPhotos);
 }, DEBOUNCE_DELAY);
 
 const onFilterClick = (evt) => {
@@ -41,7 +41,7 @@ const initFilters = (photos) => {
   currentPhotos = photos;
   filtersContainer.classList.remove('img-filters--inactive');
   filtersContainer.addEventListener('click', onFilterClick);
-  renderGallery(photos);
+  renderPics(photos);
 };
 
 export { initFilters };
