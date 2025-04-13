@@ -12,32 +12,26 @@ const overlay = form.querySelector('.img-upload__overlay');
 const closeButton = form.querySelector('.img-upload__cancel');
 const hashtagInput = form.querySelector('.text__hashtags');
 const commentInput = form.querySelector('.text__description');
-// const overlayElement = form.querySelector('.img-upload__overlay');
 const uploadImgPreview = form.querySelector('.img-upload__preview img');
 
 // Обработчики событий
 const onEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
-    // eslint-disable-next-line no-use-before-define
-    closeForm();
+    const activeAlert = document.querySelector('.error');
+    if (!activeAlert) {
+      // eslint-disable-next-line no-use-before-define
+      closeForm();
+    }
   }
 };
+
 
 const onInputKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.stopPropagation();
   }
 };
-/* нету времени чинить
-const onDocumentClick = (evt) => {
-  if (!overlayElement.contains(evt.target)) {
-    // eslint-disable-next-line no-use-before-define
-    evt.stopPropagation();
-    // eslint-disable-next-line no-use-before-define
-    closeForm();
-  }
-};
-*/
+
 const openForm = () => {
   overlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
@@ -51,7 +45,6 @@ const openForm = () => {
 
   // добавляем обработчики событий
   document.addEventListener('keydown', onEscKeydown);
-  // document.addEventListener('click', onDocumentClick);
   hashtagInput.addEventListener('keydown', onInputKeydown);
   hashtagInput.addEventListener('blur', onHashtagInputBlur);
   commentInput.addEventListener('keydown', onInputKeydown);
@@ -71,7 +64,6 @@ const closeForm = (resetForm = true) => {
   resetEffect();
 
   document.removeEventListener('keydown', onEscKeydown);
-  // document.removeEventListener('click', onDocumentClick);
   hashtagInput.removeEventListener('keydown', onInputKeydown);
   hashtagInput.removeEventListener('blur', onHashtagInputBlur);
   commentInput.removeEventListener('keydown', onInputKeydown);

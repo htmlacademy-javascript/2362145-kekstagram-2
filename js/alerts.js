@@ -48,9 +48,9 @@ export const showUploadingDataError = () => {
   document.addEventListener('click', onBodyClick);
 
   function closeErrorMessage() {
+    errorButton.removeEventListener('click', onErrorButtonClick);
     document.removeEventListener('keydown', onBodyEscKeydown);
     document.removeEventListener('click', onBodyClick);
-    errorButton.removeEventListener('click', onErrorButtonClick);
 
     uploadingErrorMessage.remove();
   }
