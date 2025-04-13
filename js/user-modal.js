@@ -1,8 +1,11 @@
 import { isEscapeKey } from './utils.js';
 import { initScale, destroyScale, resetScale } from './scale.js';
 import { initEffect, destroyEffect, resetEffect } from './effect.js';
-import { onHashtagInputBlur , pristine } from './upload-form.js';
+import { onHashtagInputBlur, pristine } from './upload-form.js';
+import { showUploadingDataError } from './alerts.js';
 
+
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const form = document.querySelector('.img-upload__form');
 const uploadInput = form.querySelector('.img-upload__input');
 const overlay = form.querySelector('.img-upload__overlay');
@@ -69,7 +72,20 @@ const closeForm = (resetForm = true) => {
 };
 
 // Инициализация
-uploadInput.addEventListener('change', openForm);
+uploadInput.addEventListener('change', () => {
+  const file = uploadInput.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+
+  if (matches) {
+    uploadImgPreview.src = URL.createObjectURL(file);
+    openForm();
+  } else {
+    showUploadingDataError();
+  }
+});
+
 closeButton.addEventListener('click', closeForm);
 
 export { openForm, closeForm };
