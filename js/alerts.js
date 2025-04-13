@@ -19,21 +19,20 @@ export const showUploadingDataError = () => {
   const uploadingErrorMessage = uploadingErrorTemplate.cloneNode(true);
   const errorButton = uploadingErrorMessage.querySelector('.error__button');
 
+  const existingError = document.querySelector('.error');
+  if (existingError) {
+    existingError.remove();
+  }
   body.append(uploadingErrorMessage);
 
   const onBodyEscKeydown = (evt) => {
-    if (!isEscapeKey(evt)) {
-      return;
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      closeErrorMessage();
     }
-    evt.preventDefault();
-    evt.stopPropagation();
-    closeErrorMessage();
   };
 
   const onBodyClick = (evt) => {
-    if (!document.contains(uploadingErrorMessage)) {
-      return;
-    }
     if (!evt.target.closest('.error__inner')) {
       closeErrorMessage();
     }
@@ -44,19 +43,17 @@ export const showUploadingDataError = () => {
     closeErrorMessage();
   };
 
-  function closeErrorMessage () {
-    if (!document.contains(uploadingErrorMessage)) {
-      return;
-    }
-    uploadingErrorMessage.remove();
-    body.removeEventListener('keydown', onBodyEscKeydown);
-    body.removeEventListener('click', onBodyClick);
-    errorButton.removeEventListener('click', onErrorButtonClick);
-  }
-
   errorButton.addEventListener('click', onErrorButtonClick);
-  body.addEventListener('keydown', onBodyEscKeydown);
-  body.addEventListener('click', onBodyClick);
+  document.addEventListener('keydown', onBodyEscKeydown);
+  document.addEventListener('click', onBodyClick);
+
+  function closeErrorMessage() {
+    document.removeEventListener('keydown', onBodyEscKeydown);
+    document.removeEventListener('click', onBodyClick);
+    errorButton.removeEventListener('click', onErrorButtonClick);
+
+    uploadingErrorMessage.remove();
+  }
 };
 
 export const showSuccessMessage = () => {

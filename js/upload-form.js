@@ -127,6 +127,7 @@ const setFormSubmit = (onSuccess) => {
       sendData(new FormData(evt.target))
         .then(onSuccess)
         .then(showSuccessMessage)
+        .catch(showUploadingDataError)
         .finally(() => {
           unblockSubmitButton();
         });

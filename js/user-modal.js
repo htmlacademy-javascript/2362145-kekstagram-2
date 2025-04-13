@@ -28,7 +28,16 @@ const onInputKeydown = (evt) => {
     evt.stopPropagation();
   }
 };
-
+/* нету времени чинить
+const onDocumentClick = (evt) => {
+  if (!overlayElement.contains(evt.target)) {
+    // eslint-disable-next-line no-use-before-define
+    evt.stopPropagation();
+    // eslint-disable-next-line no-use-before-define
+    closeForm();
+  }
+};
+*/
 const openForm = () => {
   overlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
