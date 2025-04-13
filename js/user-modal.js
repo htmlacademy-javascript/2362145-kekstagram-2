@@ -71,15 +71,21 @@ const closeForm = (resetForm = true) => {
   destroyEffect();
 };
 
-// Инициализация
 uploadInput.addEventListener('change', () => {
   const file = uploadInput.files[0];
+  if (!file) {
+    return;
+  }
   const fileName = file.name.toLowerCase();
-
   const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
 
   if (matches) {
-    uploadImgPreview.src = URL.createObjectURL(file);
+    const blobUrl = URL.createObjectURL(file);
+    uploadImgPreview.src = blobUrl;
+    document.querySelectorAll('.effects__preview').forEach((preview) => {
+      preview.style.backgroundImage = `url(${blobUrl})`;
+    });
+
     openForm();
   } else {
     showUploadingDataError();

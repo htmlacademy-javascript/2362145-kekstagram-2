@@ -15,7 +15,7 @@ const applyEffect = (effectName, value) => {
     return;
   }
 
-  effectLevelValue.value = value;
+  effectLevelValue.value = parseFloat(value);
 
   if (effectName === 'none') {
     imageUploadPreview.style.filter = '';

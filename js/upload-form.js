@@ -1,5 +1,6 @@
 import { sendData } from './api.js';
 import { showSuccessMessage } from './alerts.js';
+import { showUploadingDataError } from './alerts.js';
 const Pristine = window.Pristine;
 
 const form = document.querySelector('.img-upload__form');
