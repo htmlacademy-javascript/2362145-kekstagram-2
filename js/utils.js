@@ -44,7 +44,6 @@ const throttle = (callback, delayBetweenFrames) => {
   };
 };
 
-
 export {
   getRandomInteger,
   createRandomIdFromRangeGenerator,
