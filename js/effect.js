@@ -25,7 +25,6 @@ const applyEffect = (effectName, value) => {
   imageUploadPreview.style.filter = `${effect.filter}(${value}${effect.unit})`;
 };
 
-// Обработчик изменения слайдера
 const onSliderUpdate = () => {
   const sliderValue = effectLevelSlider.noUiSlider.get();
   applyEffect(currentEffect.name, sliderValue);
@@ -59,9 +58,7 @@ const onEffectChange = (evt) => {
   applyEffect(effectName, currentEffect.max);
 };
 
-// Инициализирует слайдер эффектов
 const initEffectSlider = () => {
-  // Проверяем, есть ли уже инициализированный слайдер
   if (effectLevelSlider.noUiSlider) {
     return;
   }
@@ -78,15 +75,12 @@ const initEffectSlider = () => {
 
   effectLevelSlider.noUiSlider.on('update', onSliderUpdate);
 
-  // По умолчанию слайдер скрыт, т.к. выбран эффект "Оригинал"
   effectLevelContainer.classList.add('hidden');
 };
 
-// Инициализирует обработчики эффектов
 const initEffect = () => {
   initEffectSlider();
 
-  // Проверяем, какой эффект выбран сейчас, и отображаем слайдер, если нужно
   const selectedEffect = document.querySelector('.effects__radio:checked');
   if (selectedEffect && selectedEffect.value !== 'none') {
     currentEffect = EFFECTS[selectedEffect.value];
@@ -101,7 +95,6 @@ const destroyEffect = () => {
 };
 
 
-// Сбрасывает эффект к значению по умолчанию
 const resetEffect = () => {
   currentEffect = EFFECTS.none;
   effectLevelContainer.classList.add('hidden');

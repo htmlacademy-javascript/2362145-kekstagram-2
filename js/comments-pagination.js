@@ -8,7 +8,6 @@ const initCommentsPagination = (comments, container, loader, counter, total) => 
   const renderNextComments = () => {
     const commentsPortion = currentComments.slice(shownComments, shownComments + COMMENTS_PER_PAGE);
 
-    // Очищаем только при первой загрузке
     if (shownComments === 0) {
       container.innerHTML = '';
     }
@@ -40,12 +39,10 @@ const initCommentsPagination = (comments, container, loader, counter, total) => 
     }
   };
 
-  // Удаляем предыдущие обработчики
   const loadMoreHandler = () => renderNextComments();
   loader.removeEventListener('click', loadMoreHandler);
   loader.addEventListener('click', loadMoreHandler);
 
-  // Первоначальная инициализация
   if (currentComments.length === 0) {
     container.innerHTML = '';
     loader.classList.add('hidden');
@@ -57,7 +54,6 @@ const initCommentsPagination = (comments, container, loader, counter, total) => 
     renderNextComments();
   }
 
-  // Возвращаем функцию для очистки
   return () => {
     loader.removeEventListener('click', loadMoreHandler);
   };

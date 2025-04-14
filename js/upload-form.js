@@ -39,7 +39,6 @@ const getHashtagsArray = (value) => {
   return normalizeHashtags(value).toLowerCase().split(' ');
 };
 
-// Отдельные проверки валидации хэштегов
 const validateHashtagFormat = (value) => {
   if (!value.trim()) {
     return true;
@@ -65,10 +64,8 @@ const validateHashtagUniqueness = (value) => {
   return uniqueHashtags.size === hashtags.length;
 };
 
-// Валидация комментария
 const validateComment = (value) => value.length <= CONFIG.COMMENT.MAX_LENGTH;
 
-// Инициализация Pristine
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
@@ -76,7 +73,6 @@ const pristine = new Pristine(form, {
   errorTextTag: 'div'
 });
 
-// Обновляем добавление валидаторов с отдельными сообщениями
 pristine.addValidator(
   hashtagInput,
   validateHashtagFormat,
@@ -101,7 +97,6 @@ pristine.addValidator(
   `Длина комментария не может превышать ${CONFIG.COMMENT.MAX_LENGTH} символов`
 );
 
-// Обработчик для нормализации введенных хэштегов (замена множественных пробелов)
 const onHashtagInputBlur = () => {
   const normalizedValue = normalizeHashtags(hashtagInput.value);
   hashtagInput.value = normalizedValue;
