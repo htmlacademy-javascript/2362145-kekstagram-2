@@ -14,7 +14,6 @@ const hashtagInput = form.querySelector('.text__hashtags');
 const commentInput = form.querySelector('.text__description');
 const uploadImgPreview = form.querySelector('.img-upload__preview img');
 
-// Обработчики событий
 const onEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     const activeAlert = document.querySelector('.error');
@@ -24,7 +23,6 @@ const onEscKeydown = (evt) => {
     }
   }
 };
-
 
 const onInputKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -36,14 +34,11 @@ const openForm = () => {
   overlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
 
-  // загружаем изображение
   uploadImgPreview.src = URL.createObjectURL(uploadInput.files[0]);
 
-  // инициализируем масштаб и эффект
   initScale();
   initEffect();
 
-  // добавляем обработчики событий
   document.addEventListener('keydown', onEscKeydown);
   hashtagInput.addEventListener('keydown', onInputKeydown);
   hashtagInput.addEventListener('blur', onHashtagInputBlur);
