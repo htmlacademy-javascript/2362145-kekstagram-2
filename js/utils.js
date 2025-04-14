@@ -1,5 +1,3 @@
-const ALERT_SHOW_TIME = 5000;
-
 function getRandomInteger(a, b) {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -27,47 +25,31 @@ const getRandomArrayElement = (elements) => elements[getRandomInteger(0, element
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-const showAlert = (tag) => {
-  const alertTemplate = document.querySelector(`#${tag}`);
-  const alertElement = alertTemplate.content.cloneNode(true);
-  const alertContainer = alertElement.querySelector(`.${tag}`);
-
-  document.body.append(alertContainer);
-
-  setTimeout(() => {
-    alertContainer.remove();
-  }, ALERT_SHOW_TIME);
-  // Проверяем, существует ли кнопка в шаблоне
-  const errorButton = alertContainer.querySelector(`.${tag}__button`);
-  const closeAlert = () => alertContainer.remove();
-
-  document.addEventListener('click', closeAlert);
-
-  // Добавляем обработчик клика на документ для закрытия уведомления
-  const onDocumentClick = (evt) => {
-    if (alertContainer.contains(evt.target) && evt.target === errorButton) {
-      alertContainer.remove();
-      document.removeEventListener('click', onDocumentClick);
-    }
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
   };
-
-  // Добавляем обработчик нажатия клавиши Escape
-  const onEscKeydown = (evt) => {
-    if (isEscapeKey(evt)) {
-      alertContainer.remove();
-      document.removeEventListener('keydown', onEscKeydown);
-      document.removeEventListener('click', onDocumentClick);
-    }
-  };
-
-  document.addEventListener('click', onDocumentClick);
-  document.addEventListener('keydown', onEscKeydown);
 };
+
+const throttle = (callback, delayBetweenFrames) => {
+  let lastTime = 0;
+  return (...rest) => {
+    const now = new Date();
+    if (now - lastTime >= delayBetweenFrames) {
+      callback.apply(this, rest);
+      lastTime = now;
+    }
+  };
+};
+
 
 export {
   getRandomInteger,
   createRandomIdFromRangeGenerator,
   getRandomArrayElement,
   isEscapeKey,
-  showAlert
+  debounce,
+  throttle
 };

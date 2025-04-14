@@ -1,5 +1,6 @@
 import { sendData } from './api.js';
-import { showAlert } from './utils.js';
+import { showSuccessMessage } from './alerts.js';
+import { showUploadingDataError } from './alerts.js';
 const Pristine = window.Pristine;
 
 const form = document.querySelector('.img-upload__form');
@@ -126,9 +127,10 @@ const setFormSubmit = (onSuccess) => {
       sendData(new FormData(evt.target))
         .then(() => {
           onSuccess();
+          showSuccessMessage();
         })
         .catch(() => {
-          showAlert('error');
+          showUploadingDataError();
         })
         .finally(() => {
           unblockSubmitButton();

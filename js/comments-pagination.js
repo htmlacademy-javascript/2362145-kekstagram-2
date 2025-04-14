@@ -1,43 +1,35 @@
 const COMMENTS_PER_PAGE = 5;
-let currentComments = [];
-let shownComments = 0;
 const AVATAR_ROUND_SIZE = 35;
 
 const initCommentsPagination = (comments, container, loader, counter, total) => {
-  if (!comments && comments.length === 0) {
-    container.innerHTML = '';
-    loader.classList.add('hidden');
-    counter.textContent = '0';
-    total.textContent = '0';
-    return;
-  }
-
-  currentComments = comments;
-  shownComments = 0;
-  container.innerHTML = '';
-  loader.classList.remove('hidden');
-  total.textContent = comments.length;
+  const currentComments = [...comments];
+  let shownComments = 0;
 
   const renderNextComments = () => {
     const commentsPortion = currentComments.slice(shownComments, shownComments + COMMENTS_PER_PAGE);
 
-    commentsPortion.forEach(({ avatar, name, message, }) => {
+    // Очищаем только при первой загрузке
+    if (shownComments === 0) {
+      container.innerHTML = '';
+    }
+
+    commentsPortion.forEach(({ avatar, name, message }) => {
       const comment = document.createElement('li');
       comment.className = 'social__comment';
+
       const img = document.createElement('img');
-      img.classList.add('social__picture');
+      img.className = 'social__picture';
       img.src = avatar;
       img.alt = name;
       img.width = AVATAR_ROUND_SIZE;
       img.height = AVATAR_ROUND_SIZE;
 
       const text = document.createElement('p');
-      text.classList.add('social__text');
+      text.className = 'social__text';
       text.textContent = message;
 
-      comment.appendChild(img);
-      comment.appendChild(text);
-      container.appendChild(comment);
+      comment.append(img, text);
+      container.append(comment);
     });
 
     shownComments += commentsPortion.length;
@@ -48,14 +40,27 @@ const initCommentsPagination = (comments, container, loader, counter, total) => 
     }
   };
 
-  renderNextComments();
-  loader.addEventListener('click', renderNextComments);
+  // Удаляем предыдущие обработчики
+  const loadMoreHandler = () => renderNextComments();
+  loader.removeEventListener('click', loadMoreHandler);
+  loader.addEventListener('click', loadMoreHandler);
+
+  // Первоначальная инициализация
+  if (currentComments.length === 0) {
+    container.innerHTML = '';
+    loader.classList.add('hidden');
+    counter.textContent = '0';
+    total.textContent = '0';
+  } else {
+    loader.classList.remove('hidden');
+    total.textContent = currentComments.length;
+    renderNextComments();
+  }
+
+  // Возвращаем функцию для очистки
+  return () => {
+    loader.removeEventListener('click', loadMoreHandler);
+  };
 };
 
-const destroyCommentsPagination = (loader) => {
-  loader.classList.add('hidden');
-  // eslint-disable-next-line no-undef
-  loader.removeEventListener('click', renderNextComments);
-};
-
-export { initCommentsPagination, destroyCommentsPagination };
+export { initCommentsPagination };

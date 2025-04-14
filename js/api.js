@@ -1,46 +1,28 @@
-import { showAlert } from './utils.js';
+import { showLoadingDataError, showUploadingDataError } from './alerts.js';
 
 const BASE_URL = 'https://31.javascript.htmlacademy.pro/kekstagram';
 
-const ROUTE = {
+const Route = {
   GET_DATA: '/data',
-  SEND_DATA: '/'
+  SEND_DATA: '/',
 };
-
-const METHODS = {
+const Method = {
   GET: 'GET',
-  POST: 'POST'
+  POST: 'POST',
 };
 
-const loadingData = (route, method = METHODS.GET, body = null) =>
-  fetch(`${BASE_URL}${route}`, { method, body })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-    });
-
-const getData = (onSuccess) =>
-  loadingData(ROUTE.GET_DATA)
-    .then((data) => {
-      onSuccess(data);
-    })
-    .catch(() => {
-      showAlert('data-error');
-    });
-
-const sendData = (body) =>
-  loadingData(ROUTE.SEND_DATA, METHODS.POST, body)
+const load = (route, showError, method = Method.GET, body = null) =>
+  fetch(`${BASE_URL}${route}`, {method, body})
     .then((response) => {
       if (!response.ok) {
-        showAlert('error');
+        throw new Error();
       }
-    })
-    .then(() => {
-      showAlert('success');
+      return response.json();
     })
     .catch(() => {
-      showAlert('error');
+      throw new Error(showError());
     });
 
-export { getData, sendData };
+export const getData = () => load(Route.GET_DATA, showLoadingDataError);
+
+export const sendData = (body) => load(Route.SEND_DATA, showUploadingDataError, Method.POST, body);
